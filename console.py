@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-        newInstance = HBNBCommand.classes[argList[0]](**kw)
+        newInstance = HBNBCommand.classes[arglist[0]](**kw)
         newInstance.save()
         print(newInstance.id)
 
@@ -210,15 +210,15 @@ class HBNBCommand(cmd.Cmd):
         printList = []
 
         if args:
-            args = args.split(' ')[0]  # remove possible trailing args
+            args = args.split(' ')[0]  # Possible trailing args removed
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(HBNBCommand.classes[args]).items():
-                printList.append(str(v))
+            for a, b in storage.all(HBNBCommand.classes[args]).items():
+                printList.append(str(b))
         else:
-            for k, v in storage.all().items():
-                printList.append(str(v))
+            for a, b in storage.all().items():
+                printList.append(str(b))
         print(printList)
 
     def help_all(self):
