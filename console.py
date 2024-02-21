@@ -78,12 +78,12 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         _args = plin.replace(',', '')
                         # _args = _args.replace('\"', '')
-            l = ' '.join([_cmd, _cls, _id, _args])
+            line = ' '.join([_cmd, _cls, _id, _args])
 
         except Exception as mess:
             pass
         finally:
-            return l
+            return line
 
     def postcmd(self, stop, l):
         """Prints if isatty is false"""
