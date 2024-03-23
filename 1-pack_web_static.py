@@ -13,8 +13,8 @@ def do_pack():
     Archive made on web_static folder
     """
 
-    t = datetime.now()
-    archive = 'web_static_' + t.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
+    time = datetime.now()
+    archive = 'web_static_' + time.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
     local('mkdir -p versions')
     create = local('tar -cvzf versions/{} web_static'.format(archive))
     if create is not None:
