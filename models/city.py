@@ -1,10 +1,16 @@
 #!/usr/bin/python3
-"""City class."""
+"""Defines the City class."""
 from models.base_model import BaseModel
+from models.base_model import Base
+from sqlalchemy import String
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class City(BaseModel):
-    """Representation of a city"""
-
-    state_id = ""
-    name = ""
+class City(BaseModel, Base):
+    """city for MySQL database represented"""
+    __tablename__ = "cities"
+    name = Column(String(128), nullable=False)
+    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
+    places = relationship("Place", backref="cities", cascade="delete")
