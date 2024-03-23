@@ -1,26 +1,25 @@
 #!/usr/bin/python3
-"""Flask web application stater
 """
-from models import storage
-from flask import Flask
-from flask import render_template
+Flask web application started
+"""
 
+from flask import Flask, render_template
+from models import *
+from models import storage
 app = Flask(__name__)
 
 
-@app.route("/states_list", strict_slashes=False)
+@app.route('/states_list', strict_slashes=False)
 def states_list():
-    """HTML page displayd with list of all State objects in DBStorage
-    """
-    states = storage.all("State")
-    return render_template("7-states_list.html", states=states)
+    """HTML page display with states listed in alphabetical order"""
+    states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
+    return render_template('7-states_list.html', states=states)
 
 
 @app.teardown_appcontext
-def teardown(exc):
-    """Current SQLAlchemy session removed"""
+def teardown_db(exception):
+    """storage closed on teardown"""
     storage.close()
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000')
