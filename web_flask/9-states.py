@@ -1,35 +1,28 @@
 #!/usr/bin/python3
-"""Flask web application startr
 """
-from models import storage
-from flask import Flask
-from flask import render_template
+Flask web application started
+"""
 
+from flask import Flask, render_template
+from models import *
+from models import storage
 app = Flask(__name__)
 
 
-@app.route("/states", strict_slashes=False)
-def states():
-    """HTML page displayd with list of all States
-    """
+@app.route('/states', strict_slashes=False)
+@app.route('/states/<state_id>', strict_slashes=False)
+def states(state_id=None):
+    """States and cities listed in alphabetical order displayed"""
     states = storage.all("State")
-    return render_template("9-states.html", state=states)
-
-
-@app.route("/states/<id>", strict_slashes=False)
-def states_id(id):
-    """HTML page displayd with info about <id>, if it exists"""
-    for state in storage.all("State").values():
-        if state.id == id:
-            return render_template("9-states.html", state=state)
-    return render_template("9-states.html")
+    if state_id is not None:
+        state_id = 'State.' + state_id
+    return render_template('9-states.html', states=states, state_id=state_id)
 
 
 @app.teardown_appcontext
-def teardown(exc):
-    """Current SQLAlchemy session removed"""
+def teardown_db(exception):
+    """Storage on teardown closed"""
     storage.close()
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000')
